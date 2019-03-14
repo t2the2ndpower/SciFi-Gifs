@@ -1,5 +1,8 @@
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+    <link rel="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
     <title>Favorite gifs</title>
     <style type="text/css">
       button,
@@ -16,8 +19,7 @@
     <div class="container">
       <h1>SciFi Gifs</h1>
   
-      <!-- Rendered buttons will get dumped here  -->
-      <div id="buttons-view"></div>
+
   
       <form id="gif-form">
         <label for="gif-input">Add a gif, Yo!</label>
@@ -26,9 +28,28 @@
         <!-- Button triggers new gif to be added -->
         <input id="add-gif" type="submit" value="Add a gif, Yo!">
       </form>
-  
-      <!-- gifs will get dumped Here -->
+
+
+        <!-- Rendered buttons will get dumped here  -->
+        <div id="buttons-view"></div>
+
+
+      <!-- gifs buttons will get dumped Here -->
       <div id="buttons-view"></div>
+
+      <!-- gifs should go here -->
+      <div class=row>
+          <div class="col-2">
+          </div>
+          <div class="col-8">
+            <div id="gifOrama"></div>
+            <div id="gifs-appear-here">
+                
+            </div>
+          </div>
+      </div>
+    
+
   
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="gifs.js"></script>

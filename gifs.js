@@ -11,7 +11,7 @@
       // displaygifInfo function re-renders the HTML to display the appropriate content
       function displaygifInfo() {
 
-        var gif = $(this).attr("data-name");
+        var gif = $(this).attr("data-topic");
         var topic = "cat";
         var queryURL = "http://api.giphy.com/v1/gifs/";
         var apiKey = "&api_key=emOMci8RYO3mn4qBUZ1Bha17obohp3Ft";
@@ -32,36 +32,38 @@
 
           // Creating a div to hold the gif
           var gifDiv = $("<div class='gif'>");
+          var gifCard = $('<div id="gif" class="card" style="width: 18rem;">');
+          //var gifImg = $("<img id='gif'>" + );
 
-          // Storing the rating data
-          var rating = response.data[0].rating;
-          console.log("the rating", rating);
+        //   // Storing the rating data
+        //   var rating = response.data[0].rating;
+        //   console.log("the rating", rating);
           
-          // Creating an element to have the rating displayed
-          var pOne = $("<p>").text("the rating: " + rating);
+        //   // Creating an element to have the rating displayed
+        //   var pOne = $("<p>").text("the rating: " + rating);
 
-          // Displaying the rating
-          gifDiv.append(pOne);
+        //   // Displaying the rating
+        //   gifDiv.append(pOne);
 
-          // Storing the release year
-          var title = response.data[0].title;
-          console.log("the title", title);
+        //   // Storing the release year
+        //   var title = response.data[0].title;
+        //   console.log("the title", title);
 
-          // Creating an element to hold the release year
-          var pTwo = $("<p>").text("Released: " + title);
+        //   // Creating an element to hold the release year
+        //   var pTwo = $("<p>").text("Title: " + title);
 
-          // Displaying the release year
-          gifDiv.append(pTwo);
+        //   // Displaying the release year
+        //   gifDiv.append(pTwo);
 
-          // Storing the plot
-          var slug = response.data[0].slug;
-          console.log("the slug", slug);
+        //   // Storing the plot
+        //   var slug = response.data[0].slug;
+        //   console.log("the slug", slug);
 
-          // Creating an element to hold the slug
-          var pThree = $("<p>").text("Plot: " + slug);
+        //   // Creating an element to hold the slug
+        //   var pThree = $("<p>").text("Slug: " + slug);
 
-          // Appending the slug
-          gifDiv.append(pThree);
+        //   // Appending the slug
+        //   gifDiv.append(pThree);
 
           // Retrieving the URL for the image
           var imgURL = response.data[0].url;
@@ -69,12 +71,17 @@
 
           // Creating an element to hold the image
           var image = $("<img>").attr("src", imgURL);
+        //image.attr("class", card-img-top);
 
           // Appending the image
-          gifDiv.append(image);
+          //gifDiv.append(image);
+          gifCard.append(image);
+          $("#'gif'").append(image);
 
           // Putting the entire gif above the previous gifs
-          $("#buttons-view").prepend(gifDiv);
+          //$("#gifOrama").append(gifDiv);
+          $("gifOrama").append(gifCard);
+          console.log("this is the card info: ", gifCard);
         });
 
       }
@@ -95,7 +102,7 @@
           // Adding a class of gif-btn to our button
           a.addClass("gif-btn");
           // Adding a data-attribute
-          a.attr("data-name", gifs[i]);
+          a.attr("data-topic", gifs[i]);
           // Providing the initial button text
           a.text(gifs[i]);
           // Adding the button to the buttons-view div
@@ -123,7 +130,68 @@ queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchThis +"&api_key=emOM
       });
 
       // Adding a click event listener to all elements with a class of "gif-btn"
-      $(document).on("click", ".gif-btn", displaygifInfo);
+      $(document).on("click", ".gif-btn", function(){
+        var topic = $(this).attr("data-topic");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+          topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
+            .then(function(response) {
+              var results = response.data;
+    
+              for (var i = 0; i < results.length; i++) {
+                var gifDiv = $("<div>");
+    
+                var rating = results[i].rating;
+    
+                var p = $("<p>").text("Rating: " + rating);
+    
+                var topicImage = $("<img>");
+                topicImage.attr("src", results[i].images.fixed_height.url);
+    
+                gifDiv.prepend(p);
+                gifDiv.prepend(topicImage);
+    
+                $("#gifs-appear-here").prepend(gifDiv);
+              }
+            });
+      });
 
       // Calling the renderButtons function to display the intial buttons
       renderButtons();
+
+
+      //*** Lets try getting gifs to appear  */
+
+      $("button").on("click", function(e) {
+        
+        var topic = $(this).attr("data-topic");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+          topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+  
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+          .then(function(response) {
+            var results = response.data;
+  
+            for (var i = 0; i < results.length; i++) {
+              var gifDiv = $("<div>");
+  
+              var rating = results[i].rating;
+  
+              var p = $("<p>").text("Rating: " + rating);
+  
+              var topicImage = $("<img>");
+              topicImage.attr("src", results[i].images.fixed_height.url);
+  
+              gifDiv.prepend(p);
+              gifDiv.prepend(topicImage);
+  
+              $("#gifs-appear-here").prepend(gifDiv);
+            }
+          });
+      });
