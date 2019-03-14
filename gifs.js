@@ -23,22 +23,29 @@
           url: queryURL + searchThis + apiKey,
           method: "GET"
         }).then(function(response) {
+
+          // console log the url and the response
+          
+          console.log("this is the response: ", response.data);
+          console.log("search This: " + queryURL + searchThis + apiKey);
+
+
           // Creating a div to hold the gif
           var gifDiv = $("<div class='gif'>");
 
           // Storing the rating data
-          var rating = response.rating;
-          console.log("this is the response: ", response.data);
-          console.log("search This: " + queryURL + searchThis + apiKey);
-
+          var rating = response.data[0].rating;
+          console.log("the rating", rating);
+          
           // Creating an element to have the rating displayed
-          var pOne = $("<p>").text("Rating: " + rating);
+          var pOne = $("<p>").text("the rating: " + rating);
 
           // Displaying the rating
           gifDiv.append(pOne);
 
           // Storing the release year
-          var title = response.data.title;
+          var title = response.data[0].title;
+          console.log("the title", title);
 
           // Creating an element to hold the release year
           var pTwo = $("<p>").text("Released: " + title);
@@ -47,7 +54,8 @@
           gifDiv.append(pTwo);
 
           // Storing the plot
-          var slug = response.data.slug;
+          var slug = response.data[0].slug;
+          console.log("the slug", slug);
 
           // Creating an element to hold the slug
           var pThree = $("<p>").text("Plot: " + slug);
@@ -56,7 +64,8 @@
           gifDiv.append(pThree);
 
           // Retrieving the URL for the image
-          var imgURL = response.data.url;
+          var imgURL = response.data[0].url;
+          console.log("the image url", imgURL);
 
           // Creating an element to hold the image
           var image = $("<img>").attr("src", imgURL);
