@@ -113,21 +113,28 @@ $(document).on("click", ".gif-btn", function(){
     })
       .then(function(response) {
         var results = response.data;
+        console.log(results);
 
         for (var i = 0; i < results.length; i++) {
-          var gifDiv = $("<div>");
 
-          var rating = results[i].rating;
+            var imgId = $("id=" + results[i].id + ">");
 
-          var p = $("<p>").text("Rating: " + rating);
+            var gifDiv = $("<div>");
 
-          var topicImage = $("<img>");
-          topicImage.attr("src", results[i].images.fixed_height.url);
+            var rating = results[i].rating;
 
-          gifDiv.prepend(p);
-          gifDiv.prepend(topicImage);
+            var p = $("<p>").text("Rating: " + rating);
 
-          $("#gifs-appear-here").prepend(gifDiv);
+
+
+            var topicImage = $("<img>");
+            topicImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.attr(imgId);
+            gifDiv.prepend(p);
+            gifDiv.prepend(topicImage);
+
+            $("#gifs-appear-here").prepend(gifDiv);
         }
       });
 });
@@ -173,7 +180,9 @@ $("button").on("click", function(e) {
       var results = response.data;
 
       for (var i = 0; i < results.length; i++) {
-        var gifDiv = $("<div>");
+
+        // got the Giphy image ID to show up as the id in the div tag!!!
+        var gifDiv = $("<div id=" + results[i].id + ">");
 
         var rating = results[i].rating;
 
@@ -188,4 +197,30 @@ $("button").on("click", function(e) {
         $("#gifs-appear-here").prepend(gifDiv);
       }
     });
+
 });
+
+// Need to get the images to be still on load and animate on click.  Want to use .this and the id of the div to make this happen
+
+// function startListener(){
+
+//     $('img').on('click', function(){
+    
+//         if($(this).attr('data-state') === 'still'){
+//             $(this).attr('src', $(this).data('anim'));
+//             $(this).attr('data-state','anim');
+//             console.log("this was Clicked");
+//             return;
+//         }
+//         if($(this).attr('data-state') === 'anim'){
+//             $(this).attr('src', $(this).data('still'));
+//             $(this).attr('data-state','still');
+//             console.log("that was Clicked");
+
+//             return;
+//         }
+        
+//     });
+// };
+
+// startListener();
