@@ -128,8 +128,9 @@ $(document).on("click", ".gif-btn", function(){
 
 
             var topicImage = $("<img>");
-            topicImage.attr("src", results[i].images.fixed_height.url);
-
+            topicImage.attr("src", results[i].images.fixed_height_still.url);
+            topicImage.attr("data-image-motion", results[i].images.fixed_height.url);
+            
             gifDiv.attr(imgId);
             gifDiv.prepend(p);
             gifDiv.prepend(topicImage);
@@ -138,6 +139,29 @@ $(document).on("click", ".gif-btn", function(){
         }
       });
 });
+
+
+
+$(document).on("click","img", function(){
+
+
+  const state = $(this).attr("data-state");
+  if(state === "still"){
+
+    $(this).attr("src", $(this).attr("data-image-motion-move"));
+    $(this).attr("data-state", "animate");
+
+  } else {
+
+    $(this).attr("src", $(this).attr("data-image-motion-still"));
+    $(this).attr("data-state", "still");
+
+  };
+  console.log($(this).attr('data-image-motion'));
+  // this.attr("src", results[i].images.fixed_height.url);
+
+});
+
 
 // Calling the renderButtons function to display the intial buttons
 renderButtons();
@@ -189,8 +213,11 @@ $("button").on("click", function(e) {
         var p = $("<p>").text("Rating: " + rating);
 
         var topicImage = $("<img>");
-        topicImage.attr("src", results[i].images.fixed_height.url);
 
+        topicImage.attr("src", results[i].images.fixed_height_still.url);
+        topicImage.attr("data-image-motion-move", results[i].images.fixed_height.url);
+        topicImage.attr("data-image-motion-still", results[i].images.fixed_height_still.url);
+        topicImage.attr('data-state', 'still')
         gifDiv.prepend(p);
         gifDiv.prepend(topicImage);
 
@@ -201,6 +228,10 @@ $("button").on("click", function(e) {
 });
 
 // Need to get the images to be still on load and animate on click.  Want to use .this and the id of the div to make this happen
+
+
+
+const state = $(this).attr("data-state");
 
 // function startListener(){
 
