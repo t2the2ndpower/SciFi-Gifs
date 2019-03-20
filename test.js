@@ -6,7 +6,7 @@
 
 
 // Initial array of gifs
-var gifs = ["side eye", "yay", "smh", "woah"];
+var gifTopics = ["Stargate", "Star Trek", "Star Wars", "Star Lord"];
 var searchThis = [];
 // displaygifInfo function re-renders the HTML to display the appropriate content
 /*
@@ -59,43 +59,43 @@ function displaygifInfo() {
 */
 
 
-// Function for displaying gif data
+// Function for displaying gifTopics buttons 
 function renderButtons() {
 
-  // Deleting the gifs prior to adding new gifs
+  // Deleting the gifTopics prior to adding new gifTopics
   // (this is necessary otherwise you will have repeat buttons)
   $("#buttons-view").empty();
 
-  // Looping through the array of gifs
-  for (var i = 0; i < gifs.length; i++) {
+  // Looping through the array of gifTopics
+  for (var i = 0; i < gifTopics.length; i++) {
 
-    // Then dynamicaly generating buttons for each gif in the array
+    // Then dynamicaly generating buttons for each gifTopic in the array
     // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
     var a = $("<button>");
     // Adding a class of gif-btn to our button
     a.addClass("gif-btn");
     // Adding a data-attribute
-    a.attr("data-topic", gifs[i]);
+    a.attr("data-topic", gifTopics[i]);
     // Providing the initial button text
-    a.text(gifs[i]);
+    a.text(gifTopics[i]);
     // Adding the button to the buttons-view div
     $("#buttons-view").append(a);
   }
 }
 
-// This function handles events where a gif button is clicked
-$("#add-gif").on("click", function(event) {
+// This function handles events where a gifTopics button is clicked
+$("#add-gif").on("click", function (event) {
   event.preventDefault();
   // This line grabs the input from the textbox
-  var gif = $("#gif-input").val().trim();
+  var gifTopicSubmit = $("#gif-input").val().trim();
 
   // Adding gif from the textbox to our array
-  gifs.push(gif);
+  gifTopics.push(gifTopicSubmit);
 
-  searchThis.push(gif);
-console.log("afterbuttonclick searchThis: " + searchThis);
+  searchThis.push(gifTopicSubmit);
+  console.log("afterbuttonclick searchThis: " + searchThis);
 
-queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchThis +"&api_key=emOMci8RYO3mn4qBUZ1Bha17obohp3Ft";
+  // queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchThis + "&api_key=emOMci8RYO3mn4qBUZ1Bha17obohp3Ft";
 
 
   // Calling renderButtons which handles the processing of our gif array
@@ -103,68 +103,75 @@ queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchThis +"&api_key=emOM
 });
 
 // Adding a click event listener to all elements with a class of "gif-btn"
-$(document).on("click", ".gif-btn", function(){
+$(document).on("click", ".gif-btn", function () {
   var topic = $(this).attr("data-topic");
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-    topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=emOMci8RYO3mn4qBUZ1Bha17obohp3Ft&limit=10";
+
   $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
-      .then(function(response) {
-        var results = response.data;
-        console.log(results);
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function (response) {
+      var results = response.data;
+      
+      console.log(results);
+      console.log(topic);
 
-        for (var i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
 
-            var imgId = $("id=" + results[i].id + ">");
+        var imgId = $("id=" + results[i].id + ">");
 
-            var gifDiv = $("<div>");
+        var gifDiv = $("<div>");
 
-            var rating = results[i].rating;
+        var rating = results[i].rating;
 
-            var p = $("<p>").text("Rating: " + rating);
+        var p = $("<p>").text("Rating: " + rating);
 
 
 
-            var topicImage = $("<img>");
-            topicImage.attr("src", results[i].images.fixed_height_still.url);
-            topicImage.attr("data-image-motion", results[i].images.fixed_height.url);
-            
-            gifDiv.attr(imgId);
-            gifDiv.prepend(p);
-            gifDiv.prepend(topicImage);
+        var topicImage = $("<img>");
+        topicImage.attr("src", results[i].images.fixed_height_still.url);
+        topicImage.attr("data-image-motion", results[i].images.fixed_height.url);
 
-            $("#gifs-appear-here").prepend(gifDiv);
-        }
-      });
+        gifDiv.attr(imgId);
+        gifDiv.prepend(p);
+        gifDiv.prepend(topicImage);
+
+        
+
+        $("#gifs-appear-here").prepend(gifDiv);
+      }
+    });
+
+    
 });
 
+// renderButtons();
 
 
-$(document).on("click","img", function(){
+      // $(document).on("click", "img", function () {
 
 
-  const state = $(this).attr("data-state");
-  if(state === "still"){
+      //   const state = $(this).attr("data-state");
+      //   if (state === "still") {
 
-    $(this).attr("src", $(this).attr("data-image-motion-move"));
-    $(this).attr("data-state", "animate");
+      //     $(this).attr("src", $(this).attr("data-image-motion-move"));
+      //     $(this).attr("data-state", "animate");
 
-  } else {
+      //   } else {
 
-    $(this).attr("src", $(this).attr("data-image-motion-still"));
-    $(this).attr("data-state", "still");
+      //     $(this).attr("src", $(this).attr("data-image-motion-still"));
+      //     $(this).attr("data-state", "still");
 
-  };
-  console.log($(this).attr('data-image-motion'));
-  // this.attr("src", results[i].images.fixed_height.url);
+      //   };
+      //   console.log($(this).attr('data-image-motion'));
+      //   // this.attr("src", results[i].images.fixed_height.url);
 
-});
+      // });
 
 
 // Calling the renderButtons function to display the intial buttons
-renderButtons();
+// renderButtons();
 
 /* ***  JJ's event listner
 
@@ -186,27 +193,30 @@ function startListener(){
 
 */
 
-
+renderButtons();
 
 //*** Lets try getting gifs to appear  */
 
-$("button").on("click", function(e) {
-  
+$(document).on("click", ".gif-btn", function (e) {
+
   var topic = $(this).attr("data-topic");
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-    topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=emOMci8RYO3mn4qBUZ1Bha17obohp3Ft&limit=10";
 
   $.ajax({
     url: queryURL,
     method: "GET"
   })
-    .then(function(response) {
+    .then(function (response) {
       var results = response.data;
 
       for (var i = 0; i < results.length; i++) {
 
         // got the Giphy image ID to show up as the id in the div tag!!!
         var gifDiv = $("<div id=" + results[i].id + ">");
+
+        var title = results[i].title;
+
+        console.log(title);
 
         var rating = results[i].rating;
 
@@ -227,31 +237,30 @@ $("button").on("click", function(e) {
 
 });
 
+
+
 // Need to get the images to be still on load and animate on click.  Want to use .this and the id of the div to make this happen
 
 
+//const state = $(this).attr("data-state");
 
-const state = $(this).attr("data-state");
 
-// function startListener(){
+$(document).on("click", "img", function () {
 
-//     $('img').on('click', function(){
-    
-//         if($(this).attr('data-state') === 'still'){
-//             $(this).attr('src', $(this).data('anim'));
-//             $(this).attr('data-state','anim');
-//             console.log("this was Clicked");
-//             return;
-//         }
-//         if($(this).attr('data-state') === 'anim'){
-//             $(this).attr('src', $(this).data('still'));
-//             $(this).attr('data-state','still');
-//             console.log("that was Clicked");
 
-//             return;
-//         }
-        
-//     });
-// };
+  const state = $(this).attr("data-state");
+  if (state === "still") {
 
-// startListener();
+    $(this).attr("src", $(this).attr("data-image-motion-move"));
+    $(this).attr("data-state", "animate");
+
+  } else {
+
+    $(this).attr("src", $(this).attr("data-image-motion-still"));
+    $(this).attr("data-state", "still");
+
+  };
+  console.log($(this).attr('data-image-motion'));
+  // this.attr("src", results[i].images.fixed_height.url);
+
+});
