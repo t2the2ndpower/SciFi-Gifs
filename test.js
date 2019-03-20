@@ -1,4 +1,4 @@
-// My SciFi Gif Finder
+// My SciFi Gif Finder (I so wish this was prettier, but my goal for this one was functionality first, beauty second.  sigh.  It's sooooo ugly.)
 
 // Take the input from the movie activity and try to tweak it for Giphy api
 
